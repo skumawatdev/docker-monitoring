@@ -1,5 +1,7 @@
 global:
   scrape_interval: 15s
+  external_labels:
+    monitor: 'docker-monitoring'
 
 scrape_configs:
   - job_name: 'prometheus'
@@ -13,3 +15,6 @@ scrape_configs:
   - job_name: 'nginx'
     static_configs:
       - targets: ['nginx:80']
+
+rule_files:
+  - /etc/prometheus/alert.rules.yml
