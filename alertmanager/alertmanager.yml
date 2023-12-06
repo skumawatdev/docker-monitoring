@@ -1,0 +1,10 @@
+global:
+  slack_api_url: 'https://hooks.slack.com/services/YOUR_SLACK_WEBHOOK_URL'
+
+route:
+  receiver: slack
+receivers:
+  - name: slack
+    slack_configs:
+      - channel: '#general'
+        send_resolved: true
