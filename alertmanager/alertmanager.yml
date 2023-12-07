@@ -1,10 +1,23 @@
 global:
-  slack_api_url: 'https://hooks.slack.com/services/YOUR_SLACK_WEBHOOK_URL'
+  slack_api_url: ''
 
 route:
   receiver: slack
+
 receivers:
   - name: slack
     slack_configs:
       - channel: '#general'
         send_resolved: true
+
+  - name: monitor
+    slack_configs:
+      - channel: '#monitor-alert'
+        send_resolved: true
+        api_url: 'YOUR_MONITOR_SLACK_WEBHOOK_URL'
+
+  - name: cpu
+    slack_configs:
+      - channel: '#cpu-alert'
+        send_resolved: true
+        api_url: 'YOUR_CPU_SLACK_WEBHOOK_URL'
