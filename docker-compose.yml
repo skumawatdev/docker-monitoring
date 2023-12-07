@@ -10,6 +10,8 @@ services:
       - ./prometheus:/etc/prometheus
     command:
       - --config.file=/etc/prometheus/prometheus.yml
+    networks:
+      - monitoring
 
   grafana:
     image: grafana/grafana
@@ -21,12 +23,16 @@ services:
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
       - GF_SECURITY_ADMIN_USER=admin
+    networks:
+      - monitoring
 
   node-exporter:
     image: prom/node-exporter
     container_name: node-exporter
     ports:
       - "9100:9100"
+    networks:
+      - monitoring
 
   nginx:
     image: nginx
@@ -37,6 +43,8 @@ services:
       - ./nginx:/usr/share/nginx/html
     depends_on:
       - node-exporter
+    networks:
+      - monitoring
 
   cadvisor:
     image: google/cadvisor
@@ -48,6 +56,8 @@ services:
       - /var/run:/var/run:ro
       - /sys:/sys:ro
       - /var/lib/docker/:/var/lib/docker:ro
+    networks:
+      - monitoring
 
   alertmanager:
     image: prom/alertmanager
@@ -58,10 +68,9 @@ services:
       - ./alertmanager:/etc/alertmanager
     command:
       - --config.file=/etc/alertmanager/alertmanager.yml
+    networks:
+      - monitoring
 
 networks:
-  default:
-    external:
-      name: monitoring
-
-##create seprte network for this as sudo docker network create monitoring
+  monitoring:
+    external: true
